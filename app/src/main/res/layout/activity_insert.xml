@@ -35,6 +35,13 @@
         android:id="@+id/button_send"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:text="Insert" />
+
+    <Button
+        android:id="@+id/button_check_server"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Check Server Response" />
 
 </LinearLayout>

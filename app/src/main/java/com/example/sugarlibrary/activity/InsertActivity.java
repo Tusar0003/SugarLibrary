@@ -12,14 +12,11 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.sugarlibrary.R;
 import com.example.sugarlibrary.app.AppController;
 import com.example.sugarlibrary.model.User;
 import com.example.sugarlibrary.utils.Constants;
-
-import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,6 +36,7 @@ public class InsertActivity extends AppCompatActivity implements View.OnClickLis
         mUserNameEditText = findViewById(R.id.edit_text_user_name);
         mPasswordEditText = findViewById(R.id.edit_text_password);
         findViewById(R.id.button_send).setOnClickListener(this);
+        findViewById(R.id.button_check_server).setOnClickListener(this);
     }
 
     @Override
@@ -59,6 +57,10 @@ public class InsertActivity extends AppCompatActivity implements View.OnClickLis
                                 insertDataToSqLite();
                             }
                         }).create().show();
+                break;
+            case R.id.button_check_server:
+                checkServerResponse();
+                break;
         }
     }
 
@@ -107,6 +109,18 @@ public class InsertActivity extends AppCompatActivity implements View.OnClickLis
             }
         };
 
+//        StringRequest request = new StringRequest(Request.Method.GET, Constants.CONFIGURATION_URL, new Response.Listener<String>() {
+//            @Override
+//            public void onResponse(String response) {
+//                Log.e(TAG, "onResponse: " + response);
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                Log.e(TAG, "onErrorResponse: " + error);
+//            }
+//        });
+
         AppController.getInstance(this).addToRequestQueue(request);
     }
 
@@ -114,5 +128,21 @@ public class InsertActivity extends AppCompatActivity implements View.OnClickLis
         User user = new User(Integer.parseInt(mIdEditText.getText().toString()),
                 mUserNameEditText.getText().toString(), mPasswordEditText.getText().toString());
         user.save();
+    }
+
+    private void checkServerResponse() {
+        StringRequest request = new StringRequest(Request.Method.GET, Constants.CHECK_RESPONSE_URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.e(TAG, "onResponse: " + response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "onErrorResponse: " + error);
+            }
+        });
+
+        AppController.getInstance(this).addToRequestQueue(request);
     }
 }
